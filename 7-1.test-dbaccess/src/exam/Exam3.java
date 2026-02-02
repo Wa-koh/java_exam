@@ -23,7 +23,10 @@ public class Exam3 {
             con = DriverManager.getConnection(url, user, password);
 
             // (2)SQL文を作成
-            sql = "SELECT dep_id FROM test_members AS tm JOIN test_deps AS td ON tm = td;";
+            // ONは二つのテーブルの結合部にあたるカラムを指定する
+            // 二つの絡むの値が同じレコード同士が結合される
+            // 結合後のカラムは、別名を付けてgetXxx()メソッドで別名を指定できるようにする
+            sql = "SELECT tm.id, tm.name, tm.age, td.name AS dep_name FROM test_members AS tm INNER JOIN test_deps AS td ON tm.dep_id = td.id;";
 
             // (3)SQL実行準備
             pstmt = con.prepareStatement(sql);
@@ -38,11 +41,12 @@ public class Exam3 {
                 int id = rs.getInt("id");
                 String name = rs.getString("name");
                 int age = rs.getInt("age");
-                String dep_id = rs.getString("dep_id");
-                System.out.println("id: " + id);
-                System.out.println("name: " + name);
-                System.out.println("age: " + age);
-                System.out.println("dep_id: " + dep_id);
+                String dep_name = rs.getString("dep_name");
+                System.out.print("id=" + id); // tm.id = test_members.id
+                System.out.print(", name=" + name); // tm.name = test_members.name
+                System.out.print(", age=" + age); // tm.age = test_members.age
+                System.out.print(", dep_name=" + dep_name); // td.name = test_deps.name
+                System.out.println();
             }
         } catch (SQLException ex) {
             System.err.println("SQL = " + sql);
