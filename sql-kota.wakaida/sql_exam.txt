@@ -1,0 +1,32 @@
+-- 問1
+INSERT INTO
+  items (id, category_id, name, price)
+VALUES
+  (13, 1, '鰯', 150),
+  (14, 2, '羊', 650);
+
+-- 問2
+UPDATE items SET price = price * 0.9;
+
+-- 問3
+DELETE FROM employees WHERE end_date <= '2013-3-31';
+
+-- 問4
+SELECT * FROM employees ORDER BY start_date;
+SELECT * FROM employees WHERE start_date = '2000-4-2';
+
+-- 問5
+SELECT r.name AS region, p.name AS prefecture FROM regions AS r INNER JOIN prefectures AS p ON r.code = p.region_code ORDER BY p.code;
+
+-- 問6
+SELECT sum(population) AS population FROM populations;
+
+-- 問7
+SELECT
+	pr.name AS prefecture,
+	p.gender_code AS gender,
+	CASE p.gender_code WHEN 'm' THEN '男'
+					 WHEN 'f' THEN '女'
+	END,
+	sum(p.population) AS population
+FROM populations AS p INNER JOIN prefectures AS pr ON p.prefecture_code = pr.code GROUP BY pr.name, p.gender_code, p.prefecture_code;
